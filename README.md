@@ -34,7 +34,8 @@ to create a permanent alias that will make running the tool less verbose, and te
 QUASARd -h
 ```
 
-Follow commands in install.sh to set up everything.
+Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
+
 ### -Command-line arguments
 QUASARd takes one required argument (the directory in which you placed all your files with raw reads, in fasta/fastq format, gzipped or not) and four optional ones (minimum average read quality, minimum and maximum length, demultiplexing table with primes): 
 
