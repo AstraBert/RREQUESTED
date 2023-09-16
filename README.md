@@ -18,7 +18,7 @@ After having fulfilled these basic requirements, just download the QUASARd folde
 ```bash
 cd /path/to/working/environment
 git init
-git clone git@github.com:AstraBert/QUASARd/
+git clone https://github.com/AstraBert/QUASARd/
 ```
 
 Now run:
