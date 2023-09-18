@@ -197,7 +197,7 @@ def demultiplex(fastaq, csv):
     demultiplexed = []
     for fwd in list(fwd_dict.keys()):
         ass = 0
-        with open(os.path.join(path, "id_"+fwd+".fasta"), "w") as id_fa:
+        with open(os.path.join(path, "id-"+fwd+".fasta"), "w") as id_fa:
             for i in range(len(reads)):
                 if i<len(reads):
                     alignment1 = edlib.align(reads[i], fwd_dict[fwd],mode="SHW", task="path", additionalEqualities=correspondences)
@@ -230,4 +230,3 @@ if __name__=="__main__":
     demultiplex(inf, prim)
     end = datetime.now()
     print('Duration: {}'.format(end - start), file=sys.stderr)
-                        
