@@ -52,7 +52,7 @@ Usage: QUASARd -d, --directory RAW_READS_DIRECTORY [-dmx, --demultipex DEMULTIPL
   -MAXIMUM_LENGTH: Provide the maximum length of PCR product for size selection (default is 10000)
 
   
-  Input QUASARd -h to show this message again
+  Input QUASARd -h to show this message
 ```
 
 As said, the demultiplexing table should be a csv file, and has **mandatorily** to respect the following format:
