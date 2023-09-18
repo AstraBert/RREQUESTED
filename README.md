@@ -9,6 +9,8 @@ It is easy-to-use, it requires only two python packages to be installed for the 
 As said, it was specifically taylored on ONT reads and was tested on them, but nothing prevents you to use it (cautiously) also with NGS or PacBio reads.
 
 ### -Installation 
+Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
+
 To run the program, you will need `pandas` and `edlib` installed, at least in your working environment; if you haven't got them yet, please download the required packages at the following links:
 - [pandas](https://pandas.pydata.org/)
 - [edlib](https://pypi.org/project/edlib/)
@@ -33,8 +35,6 @@ to create a permanent alias that will make running the tool less verbose, and te
 ```bash
 QUASARd -h
 ```
-
-Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
 
 ### -Command-line arguments
 QUASARd takes one required argument (the directory in which you placed all your files with raw reads, in fasta/fastq format, gzipped or not) and four optional ones (minimum average read quality, minimum and maximum length, demultiplexing table with primes): 
