@@ -27,7 +27,7 @@ def get_base_dir(path):
 #==============================================
 #FINAL SIZE FILTERING FUNCTION
 def size_filter(infile, minlen, maxlen):
-    print("Size selection process of consensus sequences with lenght over " + str(minlen*0.9) + "bp and under " + str(maxlen*1.1) + " has been started...")
+    print("Size selection process of consensus sequences with lenght over " + str(round(minlen*0.9,0)) + "bp and under " + str(round(maxlen*1.1,0)) + " has been started...")
     with open(infile, "r") as ifp:
         ls = ifp.readlines()
     ifp.close()
@@ -61,6 +61,8 @@ def size_filter(infile, minlen, maxlen):
                     ass+=1
                 if ls[el].startswith("@")==False and ls[el-1].startswith("@")==True and maxlen*1.1 > len(ls[el])-1 > minlen*0.9:
                     ofp.write(ls[el])
+                    ofp.write(ls[el+1])
+                    ofp.write(ls[el+2])
                 else:
                     continue
             print("Finished writing")
