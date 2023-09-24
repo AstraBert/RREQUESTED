@@ -79,7 +79,7 @@ Benchmarking was conducted on a folder with 4 files: two were the fasta and the 
 
 RREQUESTED, on a normal laptop, took 1h11m39s (4299s) of real time to complete the full analysis. 
 
-It succesfully demultiplexed all four files, and we checked, by BLASTing all the demultiplexed files against their reference databases, that indeed there was no messing up. We collected everything in the following file: [demultiplexing_stats.md](./demultiplexing_stats.md). 
+It succesfully demultiplexed all four files, and we checked, by BLASTing all the demultiplexed files against their reference databases, that indeed there was no messing up. We collected everything in the following file: [demultiplexing_stats.md](./benchmarking/demultiplexing_stats.md). 
 
 As a summary for the previously mentioned statistics, it can be said that:
 
@@ -89,7 +89,7 @@ As a summary for the previously mentioned statistics, it can be said that:
 
 The contamination rate was computed as the complementary fraction of the maximum number of hits per individual or locus divided by the total number of hits (so, for instance, if Colen was hit 455 times and H37 was hit 5 times in the same file, the rate of contamination for that file would be 1-455/460). Here is the figure that shows this rate per file: every file is labelled by a number (or nogroup), the first three letters of the dataset they came from (mae or pho) and the abbreviation of their extension (fa or fq).
 
-![Contamination rate](./contamination.png)
+![Contamination rate](./benchmarking/contamination.png)
 
 
 ### -Final considerations ###
