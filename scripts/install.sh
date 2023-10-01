@@ -13,9 +13,10 @@ python3 -m pip install edlib
 ## -PANDAS
 python3 -m pip install pandas
 
-#SET UP THE ALIAS MAKING SURE TO MODIFY THE PATH TO QUASARd.sh SO THAT IT MATCHES THE ONE IN WHICH YOU PUT IT
-echo -n 'alias RREQ="bash /absolute/path/to/RREQUESTED.sh"' | cat >> ~/.bash_aliases
-source ~/.bash_aliases
+#SET UP THE EXECUTABLE MAKING SURE TO MODIFY THE PATH TO RREQUESTED SO THAT IT MATCHES THE ONE IN WHICH YOU PUT IT
+cd /usr/local/bin
+sudo cp -r /absolute/path/to/RREQUESTED ./
+sudo ln -s /usr/local/bin/RREQUESTED/scripts/RREQUESTED.sh RREQ
 
 #TEST INSTALLATION
 RREQ -h
