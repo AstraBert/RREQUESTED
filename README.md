@@ -29,11 +29,12 @@ git clone https://github.com/AstraBert/RREQUESTED/
 Now run:
 
 ```bash
-echo -n 'alias RREQ="bash /absolute/path/to/RREQUESTED.sh"' | cat >> ~/.bash_aliases
-source ~/.bash_aliases
+cd /usr/local/bin
+sudo cp -r /absolute/path/to/RREQUESTED ./
+sudo ln -s /usr/local/bin/RREQUESTED/scripts/RREQUESTED.sh RREQ
 ```
 
-to create a permanent alias that will make running the tool less verbose, and test the installation with:
+to make the program an executable, and test the installation with:
 
 ```bash
 RREQ -h
