@@ -12,7 +12,7 @@ Even though the program has been tested only on Nanopore sequencing results, the
 ### -Installation 
 Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
 
-To run the program, you need first of all to be in a Linux/Linux-like operating system and to have a Python environment installed (version 3 or later).
+To run the program, you need first of all to be in a POSIX/POSIX-like operating system and to have a Python environment installed (version 3 or later).
 
 Besides that, you should have `pandas` and `edlib` installed, at least in your working environment; if you haven't got them yet, please download the required packages at the following links:
 - [pandas](https://pandas.pydata.org/)
@@ -76,7 +76,7 @@ There are five steps in RREQUESTED analysis:
 
 
 ### -Benchmarking 
-Benchmarking was conducted on a folder with 4 files: two were the fasta and the fastq.gz version of two concatenated individuals from Maestri et al. (2019), specifically Colen and H37 (two beetles); the other two were the fastq and the fasta.gz version of barcode 16 in Susanne Reier's dataset on *Phoxinus* (common minnow). These files contained a total of 99400 reads. 
+Benchmarking was conducted on a folder with 4 files: two were the fasta and the fastq.gz version of two concatenated individuals from Maestri et al. (2019), specifically Colen and H37 (two beetles); the other two were the fastq and the fasta.gz version of barcode 15 in Susanne Reier's dataset on *Phoxinus* (common minnow). These files contained a total of 99400 reads. 
 
 RREQUESTED, on a normal laptop, took 1h11m39s (4299s) of real time to complete the full analysis. 
 
@@ -86,7 +86,7 @@ As a summary for the previously mentioned statistics, it can be said that:
 
 - All the expected loci/individuals have been succesfully separated both for Maestri and for *Phoxinus* data
 - There is still some white noise in Maestri (markedly less in *Phoxinus*) produced by the high sensibility of the demultiplexing algorithm. As a matter of facts, it doesn't simply tell apart the individuals from one another, but also it separates the sequences themselves within each single individual (moreover, data by Maestri are quite old and thus, compared to *Phoxinus* ones, from 2022, they have a noticeably inferior quality).
-- There is only one case of an actual group (one of the N.fasta files) that had a high contamination rate (2.fasta from the fasta version of Maestri, indicated as 2_maefa in the following figure).
+- There is only one case of an actual group (one of the N.fasta files) that had a high contamination rate (2.fastq from the fasta version of Maestri, indicated as 2_maefq in the following figure).
 
 The contamination rate was computed as the complementary fraction of the maximum number of hits per individual or locus divided by the total number of hits (so, for instance, if Colen was hit 455 times and H37 was hit 5 times in the same file, the rate of contamination for that file would be 1-455/460). Here is the figure that shows this rate per file: every file is labelled by a number (or nogroup), the first three letters of the dataset they came from (mae or pho) and the abbreviation of their extension (fa or fq).
 
