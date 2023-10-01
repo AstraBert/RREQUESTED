@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#QUASARd stands for QUAlity Size and All Reads demultiplexing
 # Usage function
 usage() {
   echo "Usage: RREQ -d, --directory RAW_READS_DIRECTORY [-q,--quality QUALITY] [-mi,--min MINIMUM_LENGTH] [-ma,--max MAXIMUM_LENGTH]
@@ -25,12 +24,9 @@ directory=""
 quality=7
 min=""
 max=""
-source ~/.bash_aliases
-alias_string=$(alias RREQ)
-command_part=$(echo "$alias_string" | awk -F"'" '{print $2}')
-command_part=${command_part#bash }
-absolute_path=$(realpath $(eval echo "$command_part"))
-wd=$(dirname "$absolute_path")
+alias_string=$(which RREQ)
+command_part=$(realpath "$alias_string")
+wd=$(dirname "$command_part")
 
 
 # Loop through the arguments
