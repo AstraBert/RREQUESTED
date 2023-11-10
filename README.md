@@ -75,23 +75,23 @@ There are five steps in RREQUESTED analysis:
 5. The demultiplexing step is the last portion of the program, and takes place by default as for the previous passages. It is based on super-fast global alignment and it is divided into two main parts: in the first, the demultiplexer identifies unique (higly divergent) reads, that are the ones which score less than 50% in similarity with all the other sequences. After that, it globaly aligns all the raw reads against the "self-made reference", grouping the ones that share more than 70% of their code. After having demultiplexed this way, the program checks the leftovers, to see wether there are worthy-to-save data or not. This brings to a five-round cycle that identifies higly divergent sequences in the non-grouped ones and clusters the "nogroup" reads against them. If there are still ungrouped remainders after this step, they get clustered together. Only groups encompassing more than 1% of the total reads will be written as demultiplexed fasta files, named N.fasta (where N is a number) or nogroup.fasta if they belong to the unclustered reads: they could be found in the folder basefilename-extensionabbreviation-demultiplexed (an example could be: if you are demultiplexing a file named coleoptera.fastq, the folder will be coleoptera-fq-demultiplexed)
 
 
-### -Benchmarking 
-Benchmarking was conducted on a folder with 4 files: two were the fasta and the fastq.gz version of two concatenated individuals from Maestri et al. (2019), specifically Colen and H37 (two beetles); the other two were the fastq and the fasta.gz version of barcode 15 in Susanne Reier's dataset on *Phoxinus* (common minnow). These files contained a total of 99400 reads. 
+### -Test data
+You can test the efficiency of RREQUESTED by running it on data from Greatens et al. (2023), and, after having BLASTed the demultiplexed files against the provided reference sequences turned into a database, you will be able to check demultiplexing reliability by running the result_parser.py script. 
 
-RREQUESTED, on a normal laptop, took 1h11m39s (4299s) of real time to complete the full analysis. 
+Base your testing on the following script:
 
-It succesfully demultiplexed all four files, and we checked, by BLASTing all the demultiplexed files against their reference databases, that indeed there was no messing up. We collected everything in the following file: [demultiplexing_stats.md](./benchmarking/demultiplexing_stats.md). 
-
-As a summary for the previously mentioned statistics, it can be said that:
-
-- All the expected loci/individuals have been succesfully separated both for Maestri and for *Phoxinus* data
-- There is still some white noise in Maestri (markedly less in *Phoxinus*) produced by the high sensibility of the demultiplexing algorithm. As a matter of facts, it doesn't simply tell apart the individuals from one another, but also it separates the sequences themselves within each single individual (moreover, data by Maestri are quite old and thus, compared to *Phoxinus* ones, from 2022, they have a noticeably inferior quality).
-- There is only one case of an actual group (one of the N.fasta files) that had a high contamination rate (2.fasta from the fastq version of Maestri, indicated as 2_maefq in the following figure).
-
-The contamination rate was computed as the complementary fraction of the maximum number of hits per individual or locus divided by the total number of hits (so, for instance, if Colen was hit 455 times and H37 was hit 5 times in the same file, the rate of contamination for that file would be 1-455/460). Here is the figure that shows this rate per file: every file is labelled by a number (or nogroup), the first three letters of the dataset they came from (mae or pho) and the abbreviation of their extension (fa or fq).
-
-![Contamination rate](./benchmarking/contamination.png)
-
+```bash
+##This code assumes you downloaded the reads and placed them in a folder named /path/to/reads/folder and also the result_parser.py code, placing it at: /absolute/path/to/result_parser.py
+RREQ -d /path/to/reads/folder -q 3 -mi 400 -ma 2000
+makeblastdb -in /path/to/reads/folder /ref.fa -dbtype nucl -out /path/to/reads/folder/refDB
+c=0
+for i in /path/to/reads/folder/results/demultiplexed-fq-GreatensEtAl/*.fasta
+do
+  ((c+=1))
+  blastn -num_threads 4 -max_target_seqs 1 -outfmt "6 qseqid sseqid slen qlen pident qcovs length mismatch gapopen qstart qend sstart send evalue bitscore" -db /path/to/reads/folder/refDB -query $i > /path/to/reads/folder/${c}.blast
+done
+python3 /absolute/path/to/result_parser.py -d /path/to/reads/folder
+```
 
 ### -Final considerations ###
 As a practical suggestion, we strongly advise to be cautious while using RREQUESTED with files containing reads from multiple individuals, especially if the quality of the data is low: not because there is the risk that you will miss something, but because it can produce more groups than needed.
