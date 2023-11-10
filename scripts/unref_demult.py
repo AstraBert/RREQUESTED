@@ -1,5 +1,4 @@
 import os
-import subprocess as sp
 import edlib
 from datetime import datetime
 from argparse import ArgumentParser
@@ -39,7 +38,6 @@ def get_base_dir(path):
     return basedir, basename, base_basedir
 
 #@==========================================================================
-#OPERATIONS ON LISTS
 def find_n_remove(l1, l2):
     for j in range(len(l1)):
         for k in range(len(l2)):
@@ -60,19 +58,6 @@ def reverse_complement(seq):
     sequence = ""
     rev_comp_sequence = sequence.join(rev_comp)
     return rev_comp_sequence
-  
-#@==========================================================================
-
-###############################################################################
-
-                    #THE FOLLOWING FUNCTIONS, WHOSE 
-                    #TITLE LINES START WHIT #>
-                    #SHOULD BE INSTEAD CONSIDERED,
-                    #AS THEY DO MOST OF THE WORK :)
-###############################################################################
-                    
-#>==========================================================================
-#FIND REFERENCE SEQUENCES
 
 def find_the_num(infile):
     print("Started the search for higly diverging sequences (>50 perc apart from any other)", file=sys.stderr)
@@ -162,9 +147,6 @@ def find_the_num_list(lines):
     except KeyboardInterrupt:
         sys.exit()
 
-#>==========================================================================
-#DEMULTIPLEX
-
 def demultiplex(infile):
     try:
         value=False
@@ -245,7 +227,6 @@ def demultiplex(infile):
                         else:
                             ranks[indx].append(no_group[i])
                             proc.append(no_group[i])
-                    ranks[indx].append(j)
                     print("Assigned %d sequences to no_group %d (%g perc)" %(len(ranks[indx]), indx, round(((len(ranks[indx])/len(no_group))*100),3)), file=sys.stderr)
                 for r in ranks:
                     groups.append(r)
@@ -319,8 +300,6 @@ def demultiplex(infile):
         print("The program ended its execution successfully", file=sys.stderr)            
     except KeyboardInterrupt:
         sys.exit()
-
-#>==========================================================================
 
 if __name__=="__main__":
     start = datetime.now()
