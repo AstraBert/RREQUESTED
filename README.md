@@ -8,6 +8,10 @@ It is easy-to-use, it requires only two python packages to be installed for the 
 
 Even though the program has been tested only on Nanopore sequencing results, the program could be cautiously applied also to products from NGS or other ThirdGen technologies. 
 
+Here you can have a simple visualization of the three main step: quality filtering (1), size selection (2) and demultiplexing (3):
+
+![visual](./imgs/1.png)
+
 
 ### -Installation 
 Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
@@ -72,7 +76,11 @@ There are five steps in RREQUESTED analysis:
 2. After having found the files, RREQUESTED creates a results directory where it will copy all the raw reads files, and then the analysis can begin.
 3. The quality filtering step is based on the easiest implementation one could think of: for every read, the filtering algorithms takes the mean quality and discards the reads that are under a given value (default is 7, so this step will take place nevertheless if the file is fastq/fastq.gz)
 4. The size filtering step is also based on the easiest implementation one could think of: for every read, the filtering algorithms takes the length and, if this is below the minimum or above the maximum allowed, the read gets discarded. Minimum and maximum are set by default at 500 and 10000bp, so this step will take place nevertheless with all formats of files.
-5. The demultiplexing step is the last portion of the program, and takes place by default as for the previous passages. It is based on super-fast global alignment and it is divided into two main parts: in the first, the demultiplexer identifies unique (higly divergent) reads, that are the ones which score less than 50% in similarity with all the other sequences. After that, it globaly aligns all the raw reads against the "self-made reference", grouping the ones that share more than 70% of their code. After having demultiplexed this way, the program checks the leftovers, to see wether there are worthy-to-save data or not. This brings to a five-round cycle that identifies higly divergent sequences in the non-grouped ones and clusters the "nogroup" reads against them. If there are still ungrouped remainders after this step, they get clustered together. Only groups encompassing more than 1% of the total reads will be written as demultiplexed fasta files, named N.fasta (where N is a number) or nogroup.fasta if they belong to the unclustered reads: they could be found in the folder basefilename-extensionabbreviation-demultiplexed (an example could be: if you are demultiplexing a file named coleoptera.fastq, the folder will be coleoptera-fq-demultiplexed)
+5. The demultiplexing step is the last portion of the program, and takes place by default as for the previous passages. It is based on super-fast global alignment and it is divided into two main parts: in the first, the demultiplexer identifies unique (higly divergent) reads (1), that are the ones which score less than 50% in similarity with all the other sequences. After that, it globaly aligns all the raw reads against the "self-made reference", grouping the ones that share more than 70% of their code (2). After having demultiplexed this way, the program checks the leftovers, to see wether there are worthy-to-save data or not. This brings to a five-round cycle that identifies higly divergent sequences in the non-grouped ones and clusters the "nogroup" reads against them (3). If there are still ungrouped remainders after this step, they get clustered together (3). Only groups encompassing more than 1% of the total reads will be written as demultiplexed fasta files, named N.fasta (where N is a number) or nogroup.fasta if they belong to the unclustered reads: they could be found in the folder basefilename-extensionabbreviation-demultiplexed (an example could be: if you are demultiplexing a file named coleoptera.fastq, the folder will be coleoptera-fq-demultiplexed)
+
+Here you can see a nicer visualization of unreferenced demultiplexing:
+
+![Visual](./imgs/2.png)
 
 
 ### -Test data
