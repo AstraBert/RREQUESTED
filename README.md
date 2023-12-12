@@ -89,19 +89,20 @@ Here you can see a nicer visualization of unreferenced demultiplexing:
 ### -Test data
 You can test the efficiency of RREQUESTED by running it on data from Greatens et al. (2023), and, after having BLASTed the demultiplexed files against the provided reference sequences turned into a database, you will be able to check demultiplexing reliability by running the result_parser.py script. 
 
-Base your testing on the following script:
+Base your testing on the following script (assuming you already moved to RREQUESTED directory:
 
 ```bash
-##This code assumes you downloaded the reads and placed them in a folder named /path/to/reads/folder and also the result_parser.py code, placing it at: /absolute/path/to/result_parser.py
-RREQ -d /path/to/reads/folder -q 3 -mi 400 -ma 2000
-makeblastdb -in /path/to/reads/folder /ref.fa -dbtype nucl -out /path/to/reads/folder/refDB
+cd test
+folder=$(realpath ./)
+RREQ -d $folder -q 3 -mi 400 -ma 2000
+makeblastdb -in ${folder}/ref.fa -dbtype nucl -out ${folder}/refDB
 c=0
 for i in /path/to/reads/folder/results/demultiplexed-fq-GreatensEtAl/*.fasta
 do
   ((c+=1))
-  blastn -num_threads 4 -max_target_seqs 1 -outfmt "6 qseqid sseqid slen qlen pident qcovs length mismatch gapopen qstart qend sstart send evalue bitscore" -db /path/to/reads/folder/refDB -query $i > /path/to/reads/folder/${c}.blast
+  blastn -num_threads 4 -max_target_seqs 1 -outfmt "6 qseqid sseqid slen qlen pident qcovs length mismatch gapopen qstart qend sstart send evalue bitscore" -db ${folder}/refDB -query $i > ${folder}/${c}.blast
 done
-python3 /absolute/path/to/result_parser.py -d /path/to/reads/folder
+python3 ${folder}/result_parser.py -d ${folder}
 ```
 
 ### -Final considerations ###
