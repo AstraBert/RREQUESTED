@@ -27,7 +27,7 @@ Now run:
 
 ```bash
 cd RREQUESTED
-bash install.sh
+bash scripts/install.sh
 ```
 
 to install all the necessary dependencies, and test the installation with:
