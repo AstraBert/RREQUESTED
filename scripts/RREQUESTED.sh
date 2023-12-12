@@ -17,6 +17,10 @@ usage() {
   exit 1
 }
 
+ConPath=$(which conda)
+tmp=${ConPath#* }
+Conda=${tmp%%/bin/co*}
+
 
 # Initialize variables with default values
 directory=""
@@ -24,7 +28,7 @@ quality=7
 min=""
 max=""
 sourcedir=$(dirname $0)
-wd=$(realpath "$command_part")
+wd=$(realpath "$sourcedir")
 
 
 # Loop through the arguments
@@ -85,13 +89,15 @@ then
     echo "Either $directory does not exist or it is not a directory"
     usage
 else
+    source ${Conda}/etc/profile.d/conda.sh
+    conda activate ${wd}/environments/rrequested
     now=$(date +%Y-%m-%d' '%H:%M:%S)
     echo "Program started its execution at ${now}"
     count_fast=$(find $directory -type f -name "*.fast*" | wc -l)
-
     if [ $count_fast -eq 0 ]
     then
         echo "No fasta/fastq/fasta.gz/fastq.gz files, quitting"
+        conda deactivate
         exit 1
     else
         mkdir -p ${directory}/results
@@ -150,3 +156,4 @@ fi
 
 now=$(date +%Y-%m-%d' '%H:%M:%S)
 echo "Program ended its execution at ${now}"
+conda deactivate
