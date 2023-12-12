@@ -41,10 +41,16 @@ conda activate \
   ${basedir}/environments/rrequested
 
 ## INSTALL necessary dependencies
+
 mamba install \
    -c bioconda \
    -y \
    edlib pandas
+
+mamba install \
+   -c conda-forge \
+   -y \
+   pigz
 
 ## DEACTIVATE
 conda deactivate
