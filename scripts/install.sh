@@ -1,22 +1,55 @@
-#PLEASE NOTE THAT THIS INSTALLATION PAGE ASSUMES YOU ARE RUNNING ON A LINUX OR LINUX-LIKE OPERATING SYSTEM
-#AND THAT YOU ALREADY HAVE A PYTHON (VERSION 3 OR FOLLOWING) ENVIRONMENT INSTALLED. 
-#IF THIS IS NOT THE CASE, PLEASE CONSIDER TO ADJUST YOUR WORKING SPACE SO THAT IT COULD FIT THE REQUIREMENTS
+#!/bin/bash
 
-#DOWNLOAD THIS FOLDER IN YOUR WORKING DIRECTORY
-cd /path/to/working/directory
-git init
-git clone https://github.com/AstraBert/RREQUESTED/
+echo "Installation process started, checking if Anaconda/Miniconda and Mamba are installed..."
 
-#INSTALL DEPENDENCIES
-## -EDLIB
-python3 -m pip install edlib
-## -PANDAS
-python3 -m pip install pandas
 
-#SET UP THE EXECUTABLE MAKING SURE TO MODIFY THE PATH TO RREQUESTED SO THAT IT MATCHES THE ONE IN WHICH YOU PUT IT
-cd /usr/local/bin
-sudo cp -r /absolute/path/to/RREQUESTED ./
-sudo ln -s /usr/local/bin/RREQUESTED/scripts/RREQUESTED.sh RREQ
+command -v conda >/dev/null 2>&1 || {
+   echo >&2 "The installation pipeline requires Anaconda/Miniconda but it is not installed. Please check here: https://anaconda.org/ for more details. Aborting."
+   exit 1
+}
 
-#TEST INSTALLATION
-RREQ -h
+
+command -v mamba >/dev/null 2>&1 || {
+   echo >&2 "The installation pipeline requires Mamba but it is not installed. Please check here: https://github.com/conda-forge/miniforge#mambaforge for more details. Aborting."
+   exit 2
+}
+
+echo "Anaconda/Miniconda and Mamba are correctly installed, proceeding with the installation of necessary softwares: it may take a while..."
+
+sleep 1
+
+tmp=$(dirname $0)
+basedir=$(realpath $tmp)
+
+ConPath=$(which conda)
+tmp=${ConPath#* }
+Conda=${tmp%%/bin/co*}
+
+# CREATE A NEW FOLDER WHERE TO STORE THE ENVIRONMENT
+mkdir -p $basedir/environments
+
+# CREATE A MAMBA/CONDA ENVIRONMENT
+mamba create \
+  -p $basedir/environments/rrequested  \
+  -y \
+  -c conda-forge \
+  -c bioconda \
+  python=3.10
+
+source ${Conda}/etc/profile.d/conda.sh
+conda activate \
+  ${basedir}/environments/rrequested
+
+## INSTALL necessary dependencies
+mamba install \
+   -c bioconda \
+   -y \
+   edlib pandas
+
+## DEACTIVATE
+conda deactivate
+
+# MAKE RREQUESTED.sh AN EXECUTABLE
+echo "alias RREQ='bash ${basedir}/RREQUESTED.sh'">>~/.bash_aliases
+
+
