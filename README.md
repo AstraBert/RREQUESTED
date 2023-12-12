@@ -14,18 +14,11 @@ Here you can have a simple visualization of the three main step: quality filteri
 
 
 ### -Installation 
-Follow instructions in [install.sh](./scripts/install.sh) to view a comprehensive guide and set up everything.
+The basic requirment for this installation is to have  [Mamba](https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html) and [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) up and running on your Linux machine. If you don't match this pre-requisite, consider downloading them from the dedicated pages.
 
-To run the program, you need first of all to be in a POSIX/POSIX-like operating system and to have a Python environment installed (version 3 or later).
-
-Besides that, you should have `pandas` and `edlib` installed, at least in your working environment; if you haven't got them yet, please download the required packages at the following links:
-- [pandas](https://pandas.pydata.org/)
-- [edlib](https://pypi.org/project/edlib/)
-
-After having fulfilled these basic requirements, just download the RREQUESTED folder and place it within your working environment with:
+First of all, download the RREQUESTED folder and place it within your working environment with:
 
 ```bash
-cd /path/to/working/environment
 git init
 git clone https://github.com/AstraBert/RREQUESTED/
 ```
@@ -33,14 +26,24 @@ git clone https://github.com/AstraBert/RREQUESTED/
 Now run:
 
 ```bash
-cd /usr/local/bin
-sudo cp -r /absolute/path/to/RREQUESTED ./
-sudo ln -s /usr/local/bin/RREQUESTED/scripts/RREQUESTED.sh RREQ
+cd RREQUESTED
+bash install.sh
 ```
 
-to make the program an executable, and test the installation with:
+to install all the necessary dependencies, and test the installation with:
 
 ```bash
+source ~/.bash_aliases
+RREQ -h
+```
+
+You can alternatively download the .tar.gz archive in the Releases page, move to the folder where you have downloaded the archive and then run:
+
+```bash
+tar -xzvf ./RREQUESTED.tar.gz
+cd RREQUESTED
+bash install.sh
+source ~/.bash_aliases
 RREQ -h
 ```
 
