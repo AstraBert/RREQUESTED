@@ -41,6 +41,10 @@ conda activate \
   ${basedir}/environments/rrequested
 
 ## INSTALL necessary dependencies
+mamba install \
+   -c anaconda \
+   -y \
+   numpy=1.26.2
 
 mamba install \
    -c bioconda \
