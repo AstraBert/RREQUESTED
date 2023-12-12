@@ -17,16 +17,14 @@ usage() {
   exit 1
 }
 
-#!/bin/bash
 
 # Initialize variables with default values
 directory=""
 quality=7
 min=""
 max=""
-alias_string=$(which RREQ)
-command_part=$(realpath "$alias_string")
-wd=$(dirname "$command_part")
+sourcedir=$(dirname $0)
+wd=$(realpath "$command_part")
 
 
 # Loop through the arguments
@@ -123,34 +121,24 @@ else
                 if [[ ${file} == *.fasta* ]]
                 then
                     echo "Program started current run on file $file"
-                    python3 "${wd}/size_filter.py" \
-                        -c ${file} \
-                        -min ${min} \
-                        -max ${max}
+                    python3 ${wd}/size_filter.py -c ${file} -min ${min} -max ${max}
                     filename=$(basename "$file")
                     dirname=$(dirname "$file")
                     basename_no_ext="${filename%.*}"
                     combined_path="$dirname/$basename_no_ext"
-                    python3 "${wd}/unref_demult.py" \
-                        -i ${combined_path}_size_selected.fasta
+                    python3 "${wd}/unref_demult.py" -i ${combined_path}_size_selected.fasta
                     echo "Demultiplexing finished, the program ended current run"
                     now=$(date +%Y-%m-%d' '%H:%M:%S)
                     echo "Program ended current run at ${now}"
                 else
                     echo "Program started current run on file $file"
-                    python3 "${wd}/quality_filter.py" \
-                        -i ${file} \
-                        -q ${quality}
-                    python3 "${wd}/size_filter.py" \
-                        -c ${file} \
-                        -min ${min} \
-                        -max ${max}
+                    python3 "${wd}/quality_filter.py" -i ${file} -q ${quality}
+                    python3 "${wd}/size_filter.py" -c ${file} -min ${min} -max ${max}
                     filename=$(basename "$file")
                     dirname=$(dirname "$file")
                     basename_no_ext="${filename%.*}"
                     combined_path="$dirname/$basename_no_ext"
-                    python3 "${wd}/unref_demult.py" \
-                        -i ${combined_path}_size_selected.fastq
+                    python3 "${wd}/unref_demult.py" -i ${combined_path}_size_selected.fastq
                     echo "Demultiplexing finished, the program ended current run"
                     now=$(date +%Y-%m-%d' '%H:%M:%S)
                     echo "Program ended current run at ${now}"
