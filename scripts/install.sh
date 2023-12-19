@@ -49,7 +49,7 @@ mamba install \
 mamba install \
    -c bioconda \
    -y \
-   edlib pandas
+   edlib pandas biopython
 
 mamba install \
    -c conda-forge \
