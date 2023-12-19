@@ -110,17 +110,17 @@ RREQUESTED was benchmarked against 20 fastq files containg 7500 reads obtained w
 
 On the other hand, it was tried on 7 datasets of artificially generated reads obtained with [simON-reads](https://github.com/AstraBert/simON-reads) from NCBI Nucleotide sequences:
 
-- The first contained 28S-rRNA and S7 rRNA from two Coleoptera species
-- The second contained _Mus musculus_ sequences with accession number: LC124947.1, U72947.1, CZ170435.1
-- The third contained COI barcodes from four _Bradypus_ species: _B. torquatus_, _B. tridactylus_, _B. variegatus_, _B. pygmaeus_
-- The fourth contained RAG1 sequences from _Hemicentes semispinosus_, _Erinaceus europaeus_, _Loxodonta africana_
-- The fifth contained PLAC1 sequences from _Leopardus geoffroyi_, _Ursus arctos_ and _Homo sapiens_
-- The sixth contained seven COI Sanger sequences from Maestri et al. (2019)
-- The seventh contained COI sequences from _Macaca fascicularis_, _Cheracebus lugens_, _Macaca fascicularis_
+- The first contained 28S-rRNA and S7 rRNA from two Coleoptera species; it returned 0% contamination and demultipledxed the two loci correctly.
+- The second contained _Mus musculus_ sequences with accession number: LC124947.1, U72947.1, CZ170435.1; it returned 0% contamination and demultiplexed the three loci correctly.
+- The third contained COI barcodes from four _Bradypus_ species: _B. torquatus_, _B. tridactylus_, _B. variegatus_, _B. pygmaeus_; it returned 100% contamination error (all reads were clustered together due to high sequence similarity caused by low divergence time among species)
+- The fourth contained RAG1 sequences from _Hemicentes semispinosus_, _Erinaceus europaeus_, _Loxodonta africana_; it returned 0% contamination and demultiplexed the three loci correctly.
+- The fifth contained PLAC1 sequences from _Leopardus geoffroyi_, _Ursus arctos_ and _Homo sapiens_; it returned 0% contamination and demultipledxed the three loci correctly.
+- The sixth contained seven COI Sanger sequences from Maestri et al. (2019); it returned about 50% contamination in H43-H37 and H42-H36, demultiplexing these four units in only two groups, while being able to recognize the other three correctly.
+- The seventh contained COI sequences from _Macaca fascicularis_, _Cheracebus lugens_, _Macaca fascicularis_; it returned 0% contamination and demultiplexed the three loci correctly.
 
 
 ### -Final considerations ###
-As a practical suggestion, we strongly advise to be cautious while using RREQUESTED with files containing reads from multiple individuals, especially if the quality of the data is low: not because there is the risk that you will miss something, but because it can produce more groups than needed.
+As a practical suggestion, we strongly advise to be cautious while using RREQUESTED with files containing reads from multiple individuals, especially if the quality of the data is low and/or there is a high phylogenetic affinity among the demultiplexing units.
 
 Moreover, please note that RREQUESTED is still experimental and may contain errors, may fail/take really long while performing large analyses with limited computational power (e.g. on a normal laptop) and may output not-100%-reliable results, so always check them and pull issues whenever you feel it to be the case, we'll be on your back as soon as possible to fix/implement/enhance whatever you suggest!
 
