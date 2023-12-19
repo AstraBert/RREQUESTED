@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 from datetime import datetime
 import sys
+from Bio import SeqIO
+import gzip
 
 argparse = ArgumentParser()
 argparse.add_argument("-i", "--infile", help="Path to the file with raw reads", required=True)
@@ -12,6 +14,36 @@ inf = args.infile
 qlt = args.quality
 
 #FILTERING FUNCTIONS
+
+def load_data(infile):
+    """Load data from infile if it is in fastq format (after having unzipped it, if it is zipped)"""
+    print("Reading data from input file...", file=sys.stderr)
+    if infile.endswith(".gz"):  # If file is gzipped, unzip it
+        y = gzip.open(infile, "rt", encoding="latin-1")
+        if infile.endswith(".fastq.gz"):  # Read file as fastq if it is fastq
+            records = SeqIO.parse(y, "fastq")
+            seq_dict = {}  # Create a dictionary to store everything from the file
+            for record in records:
+                # Update dictionary with header as key, sequence as [0] element of the value list, and base quality string as [1] element of the value list
+                seq_dict.update(
+                    {record.id: [str(record.seq), record.format("fastq").split("\n")[3]]})
+            y.close()
+            return seq_dict
+    # Read file directly as fastq if it is a not zipped fastq
+    elif infile.endswith(".fastq"):
+        with open(infile, "r") as y:
+            records = SeqIO.parse(y, "fastq")
+            seq_dict = {}  # Create a dictionary to store everything from the file
+            for record in records:
+                # Update dictionary with header as key, sequence as [0] element of the value list, and base quality string as [1] element of the value list
+                seq_dict.update(
+                    {record.id: [str(record.seq), record.format("fastq").split("\n")[3]]})
+            y.close()
+            return seq_dict
+    else:
+        raise ValueError("File is the wrong format")
+    print("Done", file=sys.stderr)
+
 def ascii_conv_and_mean(line):
     phred_quality_dict = {
     '!' : 0, '"' : 1, '#' : 2, '$' : 3, '%' : 4, '&' : 5, "'" : 6, '(' : 7, ')' : 8, '*' : 9,
@@ -33,28 +65,24 @@ def ascii_conv_and_mean(line):
 
 def filter(fastq, q):
     print("Filtering of reads over quality threshold " + str(q) + " has been started")
+    readdict=load_data(fastq)
     with open(fastq, "r+") as f:
-        a = f.readlines()
-        f.seek(0)
         f.truncate()
     f.close()
     disc = 0
-    total = int(len(a)/4)
-    for i in range(len(a)):
-        if i > 2 and str(a[i-1]).startswith("+")==True and str(a[i-3]).startswith("@")==True:
-            mean_q = ascii_conv_and_mean(a[i]) 
-            if mean_q < q:
-                a[i-3] = 0
-                a[i-2] = 0
-                a[i-1] = 0
-                a[i] = 0
-                disc+=1
-    print("Filtering finished: %d reads were discarded out of %d (%g percent), now re-compiling the file with filtered reads..." %(disc, total, 100*(round(disc/total, 4))))
+    total = int(len(list(readdict.keys())))
     with open(fastq, "w") as fp:
-        for el in a:
-            if el != 0:
-                fp.write(el)
+        for i in list(readdict.keys()):
+            if ascii_conv_and_mean(readdict[i][1])<q:
+                pass
+            else:
+                fp.write("@"+i+"\n")
+                fp.write(readdict[i][0]+"\n")
+                fp.write("+"+i+"\n")
+                fp.write(readdict[i][1]+"\n")
     fp.close()
+    print("Filtering finished: %d reads were discarded out of %d (%g percent), now re-compiling the file with filtered reads..." %(disc, total, 100*(round(disc/total, 4))))
+
 
 if __name__=="__main__":
     filter(inf, qlt)
