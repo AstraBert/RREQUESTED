@@ -39,7 +39,8 @@ while [ $# -gt 0 ]; do
             usage
             ;;
         -v|--version)
-            echo $version
+            echo Version: $version
+            exit 0
             ;;
         -d|--directory)
             directory="$2"
