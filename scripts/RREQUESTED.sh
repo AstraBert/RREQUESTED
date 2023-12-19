@@ -2,7 +2,7 @@
 
 # Usage function
 usage() {
-  echo "Usage: RREQ -d, --directory RAW_READS_DIRECTORY [-q,--quality QUALITY] [-mi,--min MINIMUM_LENGTH] [-ma,--max MAXIMUM_LENGTH]
+  echo "Usage: RREQ -d, --directory RAW_READS_DIRECTORY [-q,--quality QUALITY] [-mi,--min MINIMUM_LENGTH] [-ma,--max MAXIMUM_LENGTH] [-v, --version]
 
   REQUIRED ARGUMENTS:
   -RAW_READS_DIRECTORY: Provide the path to the directory where raw reads are stored in fasta/fasta.gz/fastq/fastq.gz format (can accept also format mixture, but would be better to have all the file in the same format)
@@ -11,7 +11,7 @@ usage() {
   -QUALITY: Provide the value of minimum average read quality for filtering (default: 7)
   -MINIMUM_LENGTH: Provide the minimum length of PCR product for size selection (default is 500)
   -MAXIMUM_LENGTH: Provide the maximum length of PCR product for size selection (default is 10000)
-
+  -VERSION: Print the version of the code
   
   Input RREQ -h to show this message again"
   exit 1
@@ -27,6 +27,7 @@ directory=""
 quality=7
 min=""
 max=""
+version="1.1.0"
 sourcedir=$(dirname $0)
 wd=$(realpath "$sourcedir")
 
@@ -36,6 +37,9 @@ while [ $# -gt 0 ]; do
     case "$1" in
         -h|--help)
             usage
+            ;;
+        -v|--version)
+            echo $version
             ;;
         -d|--directory)
             directory="$2"
@@ -64,7 +68,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     usage
 fi
 
-if [ -z "$directory" ] && [ ! "$1" = "-h" ] && [ ! "$1" = "--help" ]; then
+if [ -z "$directory" ] && [ ! "$1" = "-h" ] && [ ! "$1" = "--help" ] && [ ! "$1" = "-v" ] && [ ! "$1" = "--version" ]; then
     echo "Missing required argument: RAW_READS_DIRECTORY"
     usage
 fi
@@ -84,7 +88,7 @@ if [ -z "$max" ]; then
 fi
 
 
-if [ ! -d "$directory" ] && [ ! "$1" = "-h" ] && [ ! "$1" = "--help" ]
+if [ ! -d "$directory" ] && [ ! "$1" = "-h" ] && [ ! "$1" = "--help" ] && [ ! "$1" = "-v" ] && [ ! "$1" = "--version" ]
 then
     echo "Either $directory does not exist or it is not a directory"
     usage
