@@ -105,6 +105,20 @@ done
 python3 ${folder}/result_parser.py -d ${folder}
 ```
 
+### -Benchmarking
+RREQUESTED was benchmarked against 20 fastq files containg 7500 reads obtained with [simON-reads](https://github.com/AstraBert/simON-reads), each starting from 5 randomly generated sequences (with a lenght between 450 and 800 bp). In all this cases, it yielded 0% contamination and correctly demultiplexed everything. 
+
+On the other hand, it was tried on 7 datasets of artificially generated reads obtained with [simON-reads](https://github.com/AstraBert/simON-reads) from NCBI Nucleotide sequences:
+
+- The first contained 28S-rRNA and S7 rRNA from two Coleoptera species
+- The second contained _Mus musculus_ sequences with accession number: LC124947.1, U72947.1, CZ170435.1
+- The third contained COI barcodes from four _Bradypus_ species: _B. torquatus_, _B. tridactylus_, _B. variegatus_, _B. pygmaeus_
+- The fourth contained RAG1 sequences from _Hemicentes semispinosus_, _Erinaceus europaeus_, _Loxodonta africana_
+- The fifth contained PLAC1 sequences from _Leopardus geoffroyi_, _Ursus arctos_ and _Homo sapiens_
+- The sixth contained seven COI Sanger sequences from Maestri et al. (2019)
+- The seventh contained COI sequences from _Macaca fascicularis_, _Cheracebus lugens_, _Macaca fascicularis_
+
+
 ### -Final considerations ###
 As a practical suggestion, we strongly advise to be cautious while using RREQUESTED with files containing reads from multiple individuals, especially if the quality of the data is low: not because there is the risk that you will miss something, but because it can produce more groups than needed.
 
